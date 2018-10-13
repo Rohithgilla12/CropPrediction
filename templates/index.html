@@ -1,0 +1,180 @@
+<html>
+
+<head>
+    <title>Crop Predictor</title>
+    <style>
+        body{
+                    height:500px;
+                    width:1500px;
+                    background-color: #FFDAB9;
+                    background-size:cover;
+                    }
+                    
+                    #container ul{
+                    list-style:none;
+                    }
+                    #container ul li{
+                    background-color:#59d5d8;
+                    width:200px;
+                    border:1px solid white;
+                    height:45px;
+                    line-height:20px;
+                    text-align:center;
+                    float:left;
+                    font-size:18px;
+                    }
+                    #container ul li:hover {
+                    background-color:#FF4500;
+                    }
+                    #container ul ul{
+                    display:none;
+                    }
+                    #container ul li:hover > ul{
+                    display:block;}
+                    #container ul ul ul{
+                    margin-left:150px;
+                    top:0px;
+                    position:absolute;}
+                    
+                    #abcd ul{
+                    list-style:none;
+                    margin:0;
+                    width:0;
+                    background-color:#555;}
+                    #abcd ul li{
+                    display:block;
+                    color:#777;
+                    padding: 8px 17px;
+                    text-decoration:none;
+                    }
+                    #abcd ul li:hover{
+                    background-color:#FFC0CB;
+                    color:black;
+                    }
+                    
+                    #xyz ul{
+                    list-style:none;
+                    margin:0;
+                    width:0;
+                    background-color:#555;}
+                    #abcd ul li{
+                    display:block;
+                    color:black;
+                    padding: 8px 17px;
+                    text-decoration:none;
+                    }
+                    #xyz ul li:hover{
+                    background-color:#FFC0CB;
+                    color:black;
+                    }
+                    
+                    #klc{
+                    font-family: Ariel;
+                    font-size: 25px;
+                    }
+                    
+                    #header{
+                    width:100%;
+                    height:80px;
+                    background-color:#000;
+                    }
+                    
+                    #lll{
+                    font-family: Ariel;
+                    font-size: 25px;
+                    }
+                    
+        </style>
+</head>
+
+<body>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWQnlnQeoiYgRIoDrzGhgXD0VPKCdAGB_77EvHflBOA6010xOW"
+        width="1500" height="250">
+        <table>
+            <tr>
+                <td>
+                    Celcius:
+                </td>
+                <td>
+                    <input type="text" placeholder="temp" id="temp" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Soil-Type:
+                </td>
+                <td>
+                    <input type="text" placeholder="soil-type" id="soiltype" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Season:
+                </td>
+                <td>
+                    <input type="text" placeholder="season" id="season" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Nitrogen:
+                </td>
+                <td>
+                    <input type="number" placeholder="%" id="nitrogen" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Phosporus:
+                </td>
+                <td>
+                    <input type="number" placeholder="%" id="phosporus" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Pottasium:
+                </td>
+                <td>
+                    <input type="number" placeholder="%" id="pottasium" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Rain Fall:
+                </td>
+                <td>
+                    <input type="number" placeholder="rain fall" id="RainFall" required>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-info" id="send">Get Info</button>
+    <div id="accs"></div>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script>        
+        $('#send').click(function(){
+            var temp = $('#temp').val();
+            var rainfall = $('#RainFall').val();
+            var pottasium = $('#pottasium').val();
+            var phosporus = $('#phosporus').val();
+            var nitrogen = $('#nitrogen').val();
+            var season = $('#season').val();
+            var soiltype = $('#soiltype').val();            
+			$.ajax({
+                url : '/predict/getresponse/'+temp+'/'+rainfall+'/'+pottasium+'/'+phosporus+'/'+nitrogen+'/'+season+'/'+soiltype+'/',
+                dataType : 'json',
+                type : 'GET',
+                success: function(data)
+                {
+                  console.log(data);
+                  document.getElementById('accs').innerHTML=`Your suggested crop is ${data['crop']}`
+                }
+              })            
+        });
+    </script>
+</body>
+
+</html>
